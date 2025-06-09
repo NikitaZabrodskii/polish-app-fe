@@ -6,6 +6,8 @@ import { dataService } from "../../services/DataService";
 import { errorToast, successToast } from "../../services/Toast";
 import Spinner from "../../components/Spinner/Spinner";
 
+const defaultType = "input-choice";
+
 export default function CreateTest() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -20,8 +22,11 @@ export default function CreateTest() {
     formData.append("title", title);
     formData.append("text", text);
     formData.append("answers", answers);
-    formData.append("audiofile", audiofile as File);
-    formData.append("type", "input-choice");
+    if (audiofile) {
+      formData.append("audiofile", audiofile as File);
+    }
+
+    formData.append("type", defaultType);
 
     setIsLoading(true);
     const response = await dataService.createTest(formData);
