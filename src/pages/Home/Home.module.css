@@ -1,0 +1,20 @@
+.layoutCarts {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  flex-wrap: wrap;
+
+  @media (max-width: 1367px) {
+    justify-content: center;
+  }
+}
+.content {
+  max-width: 1440px;
+  margin: 2rem 5rem;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
