@@ -35,7 +35,21 @@ export interface AudioQuestionTest extends Test {
 }
 
 export class DataService {
-  private baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+  private baseUrl = this.getApiUrl();
+
+  private getApiUrl(): string {
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+
+    // Проверяем есть ли протокол
+    if (apiUrl.includes("://")) {
+      return apiUrl;
+    }
+
+    // Если нет протокола, добавляем https
+    return apiUrl.startsWith("localhost")
+      ? `http://${apiUrl}`
+      : `https://${apiUrl}`;
+  }
 
   async request(
     url: string,
