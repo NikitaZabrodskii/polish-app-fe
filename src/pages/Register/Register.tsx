@@ -1,6 +1,6 @@
 import styles from "../Register/Register.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 import { dataService } from "../../services/DataService";
 import { errorToast, successToast } from "../../services/Toast";
 export default function Register() {
@@ -10,7 +10,7 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  async function handleRegister(e) {
+  async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (isDisabled) {
@@ -56,7 +56,12 @@ export default function Register() {
         </div>
 
         <div className={styles.containerBtn}>
-          <button className={styles.button} onClick={handleRegister}>
+          <button
+            className={styles.button}
+            onClick={
+              handleRegister as unknown as MouseEventHandler<HTMLButtonElement>
+            }
+          >
             Регистрация
           </button>
         </div>

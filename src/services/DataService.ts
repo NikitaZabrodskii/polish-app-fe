@@ -1,7 +1,7 @@
 export interface Test {
   type: string; // New: test type (e.g., "multiple_choice", "true_false", "audio_question")
   title: string;
-  content: any; // Flexible content object that varies by test type
+  content: unknown; // Flexible content object that varies by test type
   audiofile?: File; // Optional file for upload
 }
 
@@ -40,12 +40,12 @@ export class DataService {
   async request(
     url: string,
     method: string,
-    body?: any,
+    body?: unknown,
     isJson: boolean = false
   ) {
     const token = localStorage.getItem("authToken");
     try {
-      const headers: any = {
+      const headers: Record<string, string> = {
         Authorization: `Bearer ${token}`,
       };
 
@@ -56,7 +56,7 @@ export class DataService {
 
       const response = await fetch(`${this.baseUrl}${url}`, {
         method,
-        body,
+        body: body as BodyInit,
         credentials: "include",
         headers: {
           ...headers,

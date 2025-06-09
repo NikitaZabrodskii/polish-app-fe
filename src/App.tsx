@@ -4,9 +4,8 @@ import CreateTest from "./pages/CreateTest/CreateTest.js";
 import Test from "./pages/Test/Test.js";
 import Login from "./pages/Login/Login.js";
 import Register from "./pages/Register/Register.js";
-
 import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

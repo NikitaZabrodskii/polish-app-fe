@@ -18,7 +18,8 @@ export default function Login() {
       localStorage.removeItem("authToken");
     }
   }, []);
-  async function handleLogin(e) {
+
+  async function handleLogin(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     if (isDisabled) {
       toast.error("Пожалуйста, заполните все поля");
