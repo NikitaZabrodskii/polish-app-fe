@@ -83,7 +83,9 @@ export default function Test() {
             onChange={(e) => {
               setUserAnswers((prev) => ({
                 ...prev,
-                [i]: e.target.value.toLowerCase() === test.content.answers[i],
+                [i]:
+                  e.target.value.toLowerCase().trim() ===
+                  test.content.answers[i].toLowerCase().trim(),
               }));
             }}
           />
