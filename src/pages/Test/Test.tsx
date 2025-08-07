@@ -32,6 +32,7 @@ export default function Test() {
   const { width, height } = useWindowSize();
   const [isTestSolved, setIsTestSolved] = useState(false);
   const answersArr = Object.values(userAnswers);
+  const [audioBlobUrl, setAudioBlobUrl] = useState<string | null>(null);
 
   const isButtonDisabled =
     isTestSolved || answersArr.length !== test?.content.answers.length;
@@ -39,16 +40,32 @@ export default function Test() {
   useEffect(() => {
     if (!id) return;
 
+    let audio: string;
+
     const getTest = async () => {
       const response = await dataService.getTest(id);
 
       if (response?.success) {
+        if (response?.data?.content.audiofile) {
+          const audioResponse = await fetch(response.data.content.audiofile);
+          const audioBlob = await audioResponse.blob();
+          const audioBlobUrl = URL.createObjectURL(audioBlob);
+          audio = audioBlobUrl;
+          setAudioBlobUrl(audioBlobUrl);
+        }
+
         setTest(response.data);
       } else {
         errorToast(`Ошибка: ${response?.data?.error}`);
       }
     };
     getTest();
+
+    return () => {
+      if (audio) {
+        URL.revokeObjectURL(audio);
+      }
+    };
   }, []);
 
   const renderTest = useMemo(() => {
@@ -130,9 +147,7 @@ export default function Test() {
       <Confetti width={width} height={height} run={isTestSolved} />
       <div className={styles.content}>
         <h2 className={styles.title}>{test?.title}</h2>
-        {test?.content.audiofile && (
-          <audio src={test.content.audiofile} controls />
-        )}
+        {audioBlobUrl && <audio src={audioBlobUrl} controls />}
         <div>{renderTest}</div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           {renderMistakes}
